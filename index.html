@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="trf_style.css" />
+    <link rel="shortcut icon" href="./utils/favicon.png" type="image/x-icon" />
+
+    <title>3D-transform</title>
+  </head>
+  <body>
+    <div class="header">3D Transformations</div>
+
+    <div class="main">
+      <div class="scene">
+        <div class="box">
+          <div draggable="true" class="box__face box__face--front">Front</div>
+          <div draggable="true" class="box__face box__face--back">Back</div>
+          <div draggable="true" class="box__face box__face--right">Right</div>
+          <div draggable="true" class="box__face box__face--left">Left</div>
+          <div draggable="true" class="box__face box__face--top">Top</div>
+          <div draggable="true" class="box__face box__face--bottom">Bottom</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="trigger"></div>
+
+        <div class="ctrl radio-group" style="grid-area: rd">
+          <label class="radio">
+            <input
+              type="radio"
+              class="hidden"
+              name="rotate-cube-side"
+              value="front"
+              checked
+            />
+            <span class="label"></span> Front
+          </label>
+          <label class="radio">
+            <input
+              type="radio"
+              class="hidden"
+              name="rotate-cube-side"
+              value="right"
+            />
+            <span class="label"></span> Right
+          </label>
+          <label class="radio">
+            <input
+              type="radio"
+              class="hidden"
+              name="rotate-cube-side"
+              value="back"
+            />
+            <span class="label"></span> Back
+          </label>
+          <label class="radio">
+            <input
+              type="radio"
+              class="hidden"
+              name="rotate-cube-side"
+              value="left"
+            />
+            <span class="label"></span> Left
+          </label>
+          <label class="radio">
+            <input
+              type="radio"
+              class="hidden"
+              name="rotate-cube-side"
+              value="top"
+            />
+            <span class="label"></span> Top
+          </label>
+          <label class="radio">
+            <input
+              type="radio"
+              class="hidden"
+              name="rotate-cube-side"
+              value="bottom"
+            />
+            <span class="label"></span> Bottom
+          </label>
+        </div>
+        <div class="tab-ctrl">
+          <div class="prop" onclick="changeTab(0)">Properties</div>
+          <div class="mat" onclick="changeTab(1)">Matrix</div>
+        </div>
+
+        <div class="tab" id="properties">
+          <div class="ctrl" style="grid-area: prx">
+            <label for="perspective">Perspective</label>
+            <input
+              type="number"
+              name="perspective"
+              id="perspective"
+              min="0"
+              value="400"
+              step="10"
+              title="0 for Orthographic projections."
+              onchange="p=this.value; transform(); 
+									if(this.value == false){
+										document.querySelector('[for=perspective]').innerHTML = '<b>Orthographic</b>';
+									}
+									else{
+										document.querySelector('[for=perspective]').innerHTML = 'Perspective';
+									}
+									"
+            />
+          </div>
+          <div class="ctrl" style="grid-area: tro; align-self: right">
+            <label style="text-align: right">Transform Origin</label>
+          </div>
+          <div class="ctrl" style="grid-area: trox">
+            <label for="trox">X%</label>
+            <input
+              type="number"
+              name="trox"
+              id="trox"
+              value="50"
+              step="5"
+              onchange="trox=this.value; transform();"
+            />
+          </div>
+          <div class="ctrl" style="grid-area: troy">
+            <label for="troy">Y%</label>
+            <input
+              type="number"
+              name="troy"
+              id="troy"
+              value="50"
+              step="5"
+              onchange="troy=this.value; transform();"
+            />
+          </div>
+
+          <div class="ctrl" style="grid-area: trx">
+            <label for="translateX">Translate-X</label>
+            <input
+              type="number"
+              name="translateX"
+              id="translateX"
+              value="0"
+              step="5"
+              onchange="tx=this.value; transform();"
+            />
+          </div>
+          <div class="ctrl" style="grid-area: try">
+            <label for="translateY">Translate-Y</label>
+            <input
+              type="number"
+              name="translateY"
+              id="translateY"
+              value="0"
+              step="5"
+              onchange="ty=this.value; transform();"
+            />
+          </div>
+          <div class="ctrl" style="grid-area: trz">
+            <label for="translateZ">Translate-Z</label>
+            <input
+              type="number"
+              name="translateZ"
+              id="translateZ"
+              value="0"
+              step="5"
+              onchange="tz=this.value; transform();"
+            />
+          </div>
+
+          <div class="ctrl" style="grid-area: rtx">
+            <label for="rotateX">Rotate-X</label>
+            <input
+              type="number"
+              name="rotateX"
+              id="rotateX"
+              value="0"
+              step="5"
+              onchange="rx=this.value; transform();"
+            />
+          </div>
+          <div class="ctrl" style="grid-area: rty">
+            <label for="rotateY">Rotate-Y</label>
+            <input
+              type="number"
+              name="rotateY"
+              id="rotateY"
+              value="0"
+              step="5"
+              onchange="ry=this.value; transform();"
+            />
+          </div>
+          <div class="ctrl" style="grid-area: rtz">
+            <label for="rotateZ">Rotate-Z</label>
+            <input
+              type="number"
+              name="rotateZ"
+              id="rotateZ"
+              value="0"
+              step="5"
+              onchange="rz=this.value; transform();"
+            />
+          </div>
+
+          <div class="ctrl" style="grid-area: scx">
+            <label for="scalex">Scale-X</label>
+            <input
+              type="number"
+              name="scaleX"
+              id="scaleX"
+              value="1"
+              step="0.1"
+              onchange="sx=this.value; transform();"
+            />
+          </div>
+          <div class="ctrl" style="grid-area: scy">
+            <label for="scaley">Scale-Y</label>
+            <input
+              type="number"
+              name="scaleY"
+              id="scaleY"
+              value="1"
+              step="0.1"
+              onchange="sy=this.value; transform();"
+            />
+          </div>
+          <div class="ctrl" style="grid-area: scz">
+            <label for="scalez">Scale-Z</label>
+            <input
+              type="number"
+              name="scaleZ"
+              id="scaleZ"
+              value="1"
+              step="0.1"
+              onchange="sz=this.value; transform();"
+            />
+          </div>
+          <div class="ctrl" style="grid-area: sca">
+            <label for="scalea">Uniform-Scale</label>
+            <input
+              type="number"
+              name="scaleA"
+              id="scaleA"
+              value="1"
+              step="0.1"
+              onchange="sx=sy=sz=this.value; transform();"
+            />
+          </div>
+
+          <div class="ctrl" style="grid-area: skx"></div>
+          <div class="ctrl" style="grid-area: sky"></div>
+
+          <div
+            class="ctrl btn"
+            title="Randomize"
+            id="random"
+            style="grid-area: btn"
+            onclick="random()"
+          >
+            Random Transformations
+            <div title="Auto Randomize Continuously">
+              <i class="fa fa-clock" onclick="lock.call(this)"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab" id="matrix">
+          <input type="number" id="a00" value="1" title="Scale X" /><input
+            type="number"
+            id="a01"
+            value="0"
+          /><input type="number" id="a02" value="0" /><input
+            type="number"
+            id="a03"
+            value="0"
+            step="0.0002"
+            title="- 1/(X perspective)"
+          />
+          <input type="number" id="a10" value="0" /><input
+            type="number"
+            id="a11"
+            value="1"
+            title="Scale Y"
+          /><input type="number" id="a12" value="0" /><input
+            type="number"
+            id="a13"
+            value="0"
+            step="0.0002"
+            title="1/(Y perspective)"
+          />
+          <input type="number" id="a20" value="0" /><input
+            type="number"
+            id="a21"
+            value="0"
+          /><input type="number" id="a22" value="1" title="Scale Z" /><input
+            type="number"
+            id="a23"
+            value="0"
+            step="0.0002"
+            title="- 1/(Z perspective)"
+          />
+          <input type="number" id="a30" value="0" title="Translate-X" /><input
+            type="number"
+            id="a31"
+            value="0"
+            title="Translate-Y"
+          /><input type="number" id="a32" value="0" title="Translate-Z" /><input
+            type="number"
+            id="a33"
+            value="1"
+            step="0.1"
+            title="Global Scaling factor"
+          />
+          <div class="btn" onclick="matrix_transform()">Transform</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var tip = new Typed(".tip", {
+        typeSpeed: 30,
+        smartBackspace: true,
+        backSpeed: 5,
+        shuffle: true,
+        backDelay: 5000,
+        loop: true,
+        showCursor: false,
+
+        startDelay: 1000,
+      });
+    </script>
+    <script src="trf_script.js"></script>
+  </body>
+</html>
